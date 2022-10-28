@@ -1,0 +1,16 @@
+name: bridges
+type: classification
+description: Predicting fuel efficiency using discrete and continuous predictors.
+source: https://archive.ics.uci.edu/ml/datasets/Auto+MPG
+reference: Quinlan,R. (1993). Combining Instance-Based and Model-Based Learning. In Proceedings on the Tenth International Conference of Machine Learning, 236-243, University of Massachusetts, Amherst. Morgan Kaufmann.
+url: https://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data
+data: function() {
+		destfile <- tempfile()
+		download.file("https://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data", destfile)
+		autompg <- read.csv(destfile, header = FALSE)
+    names(abalone) <- c('sex', 'length', 'diameter', 'height', 'whole_weight', 'shucked_weight', 'viscera_weight', 'shell_weight', 'rings')
+		return(abalone)
+	}
+model: rings ~ length + sex
+packages:
+notes:

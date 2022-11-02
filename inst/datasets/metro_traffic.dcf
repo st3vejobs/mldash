@@ -9,6 +9,7 @@ data: function() {
   download.file("https://archive.ics.uci.edu/ml/machine-learning-databases/00492/Metro_Interstate_Traffic_Volume.csv.gz", destfile)
   metro_traffic <- read.csv(destfile,skip = 1, header = FALSE)
   colnames(metro_traffic) <- c('holiday','temp','rain_1h','snow_1h','clouds_all','weather_main','weather_description','date_time','traffic_volume')
+  return(metro_traffic)
 	}
 model: traffic_volume ~ holiday + temp + rain_1h + snow_1h + clouds_all + weather_main + weather_description + date_time
 packages:

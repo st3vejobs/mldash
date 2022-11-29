@@ -5,7 +5,8 @@ usethis::use_tidy_description()
 usethis::use_spell_check()
 
 devtools::document()
-devtools::install(dependencies = FALSE) # Note, should set this to TRUE every so often
+devtools::install(dependencies = FALSE, build_vignettes = FALSE) # Note, should set this to TRUE every so often
+devtools::install(dependencies = FALSE, build_vignettes = TRUE) # Note, should set this to TRUE every so often
 devtools::build()
 devtools::check()
 
@@ -13,15 +14,54 @@ devtools::check()
 # usethis::use_pkgdown()
 pkgdown::build_site()
 
+mldash::check_java()
+mldash::check_python()
+
+# Move these to check_python?
+torch::torch_is_installed()
+torch::install_torch()
+
+
+usethis::use_package('R.utils', type = 'Imports')
+
+
 # Test datasets and models from package source directory
 ml_datasets <- mldash::read_ml_datasets(dir = 'inst/datasets')
 ml_models <- mldash::read_ml_models(dir = 'inst/models')
-ml_results <- mldash::run_models(datasets = ml_datasets, models = ml_models)
+ml_datasets <- ml_datasets |> dplyr::filter(id %in% c('titanic', 'PedalMe'))
+ml_results <- mldash::run_models(datasets = ml_datasets, models = ml_models, timeout = Inf)
+
+
+
+
 
 # Test core functions from package installation directory
 ml_datasets <- mldash::read_ml_datasets()
 ml_models <- mldash::read_ml_models()
 ml_results <- mldash::run_models(datasets = ml_datasets, models = ml_models)
+
+
+save_model_run <- function(results,
+						   dir = 'inst/model_runs') {
+	if(!'mldash_summary' %in% class(results)) {
+		stop('results needs to be the output of mldash::run_models.')
+	}
+	d <- attr(ml_results, 'start_time')
+	d <- gsub(' ', '_', d)
+	si <- Sys.info()
+	saveRDS(ml_results, file = paste0(dir, '/', unname(si['user']), '-', d, '.rds'))
+}
+
+save_model_run(ml_results)
+
+
+
+
+
+
+
+
+
 
 # Examine error messages
 names(attributes(ml_results))
@@ -209,6 +249,17 @@ save_model_run <- function(results,
 }
 
 save_model_run(ml_results)
+
+ml_results |>
+	dplyr::select(!c(fit, error)) |>
+	View()
+
+# This is a long running model with the psych_copay dataset
+model_name <- 'tm_svm_linear_kernlab_regression.dcf'
+dataset_name <- 'psych_copay'
+ml_datasets <- mldash::read_ml_datasets(dir = 'inst/datasets') |> dplyr::filter(id == dataset_name)
+ml_models <- mldash::read_ml_models(dir = 'inst/models', pattern = model_name)
+test_results <- mldash::run_models(ml_datasets, ml_models, print_errors = TRUE, timeout = 10)
 
 # Run only classification models/datasets
 ml_datasets <- ml_datasets %>% filter(type == 'classification')

@@ -27,7 +27,11 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/creating_datasets.html">Creating New Datasets</a>
+    <a class="dropdown-item" href="../articles/creating_models.html">Creating New Models</a>
+    <a class="dropdown-item" href="../articles/datasets.html">Available Datasets</a>
     <a class="dropdown-item" href="../articles/installation.html">Installation of System Requirements</a>
+    <a class="dropdown-item" href="../articles/models.html">Available Models</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -62,9 +66,10 @@
 <span>  <span class="va">models</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">^</span><span class="fl">15</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  training_size <span class="op">=</span> <span class="fl">0.7</span>,</span>
-<span>  save_trained_models <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  print_errors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  metrics <span class="op">=</span> <span class="fu">mldash</span><span class="fu">::</span><span class="fu"><a href="get_all_metrics.html">get_all_metrics</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  metrics <span class="op">=</span> <span class="fu">mldash</span><span class="fu">::</span><span class="fu"><a href="get_all_metrics.html">get_all_metrics</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  save_model_fits <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  timeout <span class="op">=</span> <span class="fl">60</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -96,6 +101,12 @@ Errors will always be saved in the returned object.</p></dd>
 <dd><p>list of model performance metrics from the <code>yardstick</code> package.
 See https://yardstick.tidymodels.org/articles/metric-types.html for more information.</p></dd>
 
+
+<dt>timeout</dt>
+<dd><p>the maximum amount of time (in seconds) a model is allowed to run
+before it is interrupted, can be <code>Inf</code> to never expire. Note that not
+all models can be interrupted. See <code><a href="https://henrikbengtsson.github.io/R.utils/reference/withTimeout.html" class="external-link">R.utils::withTimeout()</a></code> for more information.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -109,7 +120,7 @@ See https://yardstick.tidymodels.org/articles/metric-types.html for more informa
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Jason Bryer.</p>
+  <p></p><p>Created by Jason Bryer.</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -11,6 +11,6 @@ data: function() {
   colnames(metro_traffic) <- c('holiday','temp','rain_1h','snow_1h','clouds_all','weather_main','weather_description','date_time','traffic_volume')
   return(metro_traffic)
 	}
-model: glm(traffic_volume ~ temp + rain_1h + snow_1h + clouds_all,data = metro_traffic)
+model: traffic_volume ~ holiday + temp + rain_1h + snow_1h + clouds_all + weather_main + weather_description + date_time
 packages:
-notes:  # Skip was added to remove problematic header row
+notes:  # Skip was added to remove problematic header row. Categorical variables need to be dummy coded. 
